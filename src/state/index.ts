@@ -8,7 +8,6 @@ import profileReducer from './profile'
 import teamsReducer from './teams'
 import achievementsReducer from './achievements'
 import blockReducer from './block'
-import tickerReducer from './ticker'
 
 export default configureStore({
   devTools: process.env.NODE_ENV !== 'production',
@@ -21,7 +20,6 @@ export default configureStore({
     predictions: predictionsReducer,
     profile: profileReducer,
     teams: teamsReducer,
-    ticker: tickerReducer,
     toasts: toastsReducer,
   },
 })
