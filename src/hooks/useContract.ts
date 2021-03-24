@@ -14,6 +14,7 @@ import {
   getPointCenterIfoContract,
   getSouschefContract,
   getClaimRefundContract,
+  getPredictionsContract,
 } from 'utils/contractHelpers'
 
 /**
@@ -83,4 +84,9 @@ export const useBunnySpecialContract = () => {
 export const useClaimRefundContract = () => {
   const web3 = useWeb3()
   return useMemo(() => getClaimRefundContract(web3), [web3])
+}
+
+export const usePredictionsContract = () => {
+  const web3 = useWeb3()
+  return useMemo(() => getPredictionsContract(web3), [web3])
 }
