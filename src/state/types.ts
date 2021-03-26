@@ -159,6 +159,10 @@ export interface Round {
   bullAmount: number
 }
 
+export interface RoundData {
+  [key: string]: Round
+}
+
 export interface PredictionsState {
   status: PredictionStatus
   isLoading: boolean
@@ -167,7 +171,7 @@ export interface PredictionsState {
   currentEpoch: number
   intervalBlocks: number
   minBetAmount: string
-  rounds: Round[]
+  rounds: RoundData
 }
 
 // Global state
