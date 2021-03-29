@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { kebabCase } from 'lodash'
+import { kebabCase, orderBy } from 'lodash'
 import { useWeb3React } from '@web3-react/core'
 import { Toast, toastTypes } from '@pancakeswap-libs/uikit'
 import { useSelector, useDispatch } from 'react-redux'
@@ -233,6 +233,11 @@ export const useGetRounds = () => {
   return useSelector((state: State) => state.predictions.rounds)
 }
 
+export const useGetSortedRounds = () => {
+  const roundData = useGetRounds()
+  return orderBy(Object.values(roundData), ['epoch'], ['asc'])
+}
+
 export const useGetCurrentEpoch = () => {
   return useSelector((state: State) => state.predictions.currentEpoch)
 }
@@ -246,10 +251,10 @@ export const useGetRound = (id: string) => {
   return rounds[id]
 }
 
-export const useGetBettableRound = () => {
-  const rounds = useGetRounds()
+export const useGetCurrentRound = () => {
   const currentEpoch = useGetCurrentEpoch()
-  return Object.values(rounds).find((round) => round.epoch === currentEpoch)
+  const rounds = useGetSortedRounds()
+  return rounds.find((round) => round.epoch === currentEpoch)
 }
 
 export const useGetPredictionsStatus = () => {
