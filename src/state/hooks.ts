@@ -16,7 +16,7 @@ import {
   clear as clearToast,
   setBlock,
 } from './actions'
-import { State, Farm, Pool, ProfileState, TeamsState, AchievementState, PriceState } from './types'
+import { State, Farm, Pool, ProfileState, TeamsState, AchievementState, PriceState, Bet } from './types'
 import { fetchProfile } from './profile'
 import { fetchTeam, fetchTeams } from './teams'
 import { fetchAchievements } from './achievements'
@@ -273,4 +273,14 @@ export const useGetPredictionsStatus = () => {
 
 export const useGetCurrentRoundBlockNumber = () => {
   return useSelector((state: State) => state.predictions.currentRoundStartBlockNumber)
+}
+
+export const useGetMinBetAmount = () => {
+  const minBetAmount = useSelector((state: State) => state.predictions.minBetAmount)
+  return useMemo(() => new BigNumber(minBetAmount), [minBetAmount])
+}
+
+export const useGetUserBetByRound = (id: string, account: string): Bet => {
+  const round = useGetRound(id)
+  return round.bets.find((bet) => bet.user.address.toLowerCase() === account.toLocaleLowerCase())
 }
