@@ -61,44 +61,49 @@ export interface TickerStream {
 }
 
 export const useTokenPairTicker = (tokenPair: TokenPair, connectOnMount: boolean) => {
+  // Use a ref instead of state so we mark the connection as closed immediately without
+  // triggering a re-render
+  const isConnected = useRef(false)
   const [stream, setStream] = useState(null)
-  const [isConnected, setIsConnected] = useState(false)
   const websocket = useRef<WebSocket>(null)
 
   const connect = useCallback(() => {
     websocket.current.onmessage = (evt) => {
       try {
         const data = JSON.parse(evt.data) as StreamData
-        setStream({
-          eventType: data.e,
-          eventTime: data.E,
-          symbol: data.s,
-          priceChange: parseFloat(data.p),
-          priceChangePercent: parseFloat(data.P),
-          weightAveragePrice: parseFloat(data.w),
-          firstTrade: parseFloat(data.x),
-          lastPrice: parseFloat(data.c),
-          lastQuantity: Number(data.Q),
-          bestBidPrice: parseFloat(data.b),
-          bestBidQuantity: Number(data.B),
-          bestAskPrice: parseFloat(data.a),
-          bestAskQuantity: Number(data.A),
-          openPrice: parseFloat(data.o),
-          highPrice: parseFloat(data.h),
-          lowPrice: parseFloat(data.l),
-          totalTradedBaseAssetVolume: Number(data.v),
-          totalTradedQuoteAssetVolume: Number(data.q),
-          statisticsOpenTime: Number(data.O),
-          statisticsCloseTime: Number(data.C),
-          firstTradeId: Number(data.F),
-          lastTradeId: Number(data.L),
-          totalNumberOfTrades: Number(data.n),
-        })
+
+        if (isConnected.current) {
+          setStream({
+            eventType: data.e,
+            eventTime: data.E,
+            symbol: data.s,
+            priceChange: parseFloat(data.p),
+            priceChangePercent: parseFloat(data.P),
+            weightAveragePrice: parseFloat(data.w),
+            firstTrade: parseFloat(data.x),
+            lastPrice: parseFloat(data.c),
+            lastQuantity: Number(data.Q),
+            bestBidPrice: parseFloat(data.b),
+            bestBidQuantity: Number(data.B),
+            bestAskPrice: parseFloat(data.a),
+            bestAskQuantity: Number(data.A),
+            openPrice: parseFloat(data.o),
+            highPrice: parseFloat(data.h),
+            lowPrice: parseFloat(data.l),
+            totalTradedBaseAssetVolume: Number(data.v),
+            totalTradedQuoteAssetVolume: Number(data.q),
+            statisticsOpenTime: Number(data.O),
+            statisticsCloseTime: Number(data.C),
+            firstTradeId: Number(data.F),
+            lastTradeId: Number(data.L),
+            totalNumberOfTrades: Number(data.n),
+          })
+        }
       } catch (error) {
         console.error(`Error parsing data from stream`, error)
       }
     }
-  }, [websocket, setStream])
+  }, [websocket, isConnected, setStream])
 
   const disconnect = useCallback(() => {
     websocket.current.close()
@@ -108,11 +113,11 @@ export const useTokenPairTicker = (tokenPair: TokenPair, connectOnMount: boolean
     const ws = new WebSocket(`wss://stream.binance.com:9443/ws/streams/${tokenPair}@ticker`)
 
     ws.onopen = () => {
-      setIsConnected(true)
+      isConnected.current = true
     }
 
     ws.onclose = () => {
-      setIsConnected(false)
+      isConnected.current = false
     }
 
     websocket.current = ws
@@ -122,11 +127,12 @@ export const useTokenPairTicker = (tokenPair: TokenPair, connectOnMount: boolean
     }
 
     return () => {
+      isConnected.current = false
       ws.close()
     }
-  }, [tokenPair, websocket, connect, connectOnMount, setIsConnected])
+  }, [tokenPair, websocket, connect, connectOnMount, isConnected])
 
-  return { stream, isConnected, connect, disconnect }
+  return { stream, isConnected: isConnected.current, connect, disconnect }
 }
 
 // Token pair helpers
