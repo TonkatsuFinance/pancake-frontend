@@ -289,3 +289,11 @@ export const useGetUserBetByRound = (id: string, account: string): Bet => {
 
   return round.bets.find((bet) => bet.user.address.toLowerCase() === account.toLocaleLowerCase())
 }
+
+export const useGetIsFetchingHistory = () => {
+  return useSelector((state: State) => state.predictions.isFetchingHistory)
+}
+
+export const useGetBets = () => {
+  return useSelector((state: State) => state.predictions.bets)
+}

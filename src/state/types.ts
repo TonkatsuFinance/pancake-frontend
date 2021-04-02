@@ -165,6 +165,7 @@ export interface Bet {
   position: BetPosition
   claimed: boolean
   user: PredictionUser
+  round?: Round
 }
 
 export interface PredictionUser {
@@ -184,12 +185,14 @@ export interface PredictionsState {
   isLoading: boolean
   isHistoryPaneOpen: boolean
   isChartPaneOpen: boolean
+  isFetchingHistory: boolean
   currentEpoch: number
   currentRoundStartBlockNumber: number
   intervalBlocks: number
   bufferBlocks: number
   minBetAmount: string
   rounds: RoundData
+  bets: Bet[]
 }
 
 // Global state
