@@ -5,11 +5,8 @@ import useI18n from 'hooks/useI18n'
 import Page from 'components/layout/Page'
 import FarmStakingCard from 'views/Home/components/FarmStakingCard'
 import TwitterCard from 'views/Home/components/TwitterCard'
-import CakeStats from 'views/Home/components/CakeStats'
+import KatsuStats from 'views/Home/components/KatsuStats'
 import TotalValueLockedCard from 'views/Home/components/TotalValueLockedCard'
-import EarnAPYCard from 'views/Home/components/EarnAPYCard'
-import EarnAssetCard from 'views/Home/components/EarnAssetCard'
-import WinCard from 'views/Home/components/WinCard'
 import LeadInBanner from 'views/TradingCompetition/components/LeadInBanner'
 
 const Hero = styled.div`
@@ -87,20 +84,15 @@ const Home: React.FC = () => {
           <Heading as="h1" size="xl" mb="24px" color="secondary">
             {TranslateString(576, 'TonkatsuSwap')}
           </Heading>
-          <Text>{TranslateString(578, 'The #1 AMM and yield farm on Binance Smart Chain.')}</Text>
+          <Text>{TranslateString(578, 'TonkatsuSwap is the AMM and yield farm on Binance Smart Chain.')}</Text>
         </Hero>
         <div>
           <Cards>
             <FarmStakingCard />
             <TwitterCard />
           </Cards>
-          <CTACards>
-            <EarnAPYCard />
-            <EarnAssetCard />
-            <WinCard />
-          </CTACards>
           <Cards>
-            <CakeStats />
+            <KatsuStats />
             <TotalValueLockedCard />
           </Cards>
         </div>
