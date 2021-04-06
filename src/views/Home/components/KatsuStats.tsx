@@ -20,28 +20,28 @@ const Row = styled.div`
   margin-bottom: 8px;
 `
 
-const CakeStats = () => {
+const KatsuStats = () => {
   const TranslateString = useI18n()
   const totalSupply = useTotalSupply()
   const burnedBalance = getBalanceNumber(useBurnedBalance(getCakeAddress()))
-  const cakeSupply = totalSupply ? getBalanceNumber(totalSupply) - burnedBalance : 0
+  const katsuSupply = totalSupply ? getBalanceNumber(totalSupply) - burnedBalance : 0
 
   return (
     <StyledCakeStats>
       <CardBody>
         <Heading size="xl" mb="24px">
-          {TranslateString(534, 'Cake Stats')}
+          {TranslateString(534, 'Katsu Stats')}
         </Heading>
         <Row>
-          <Text fontSize="14px">{TranslateString(536, 'Total CAKE Supply')}</Text>
-          {cakeSupply && <CardValue fontSize="14px" value={cakeSupply} />}
+          <Text fontSize="14px">{TranslateString(536, 'Total KATSU Supply')}</Text>
+          {katsuSupply && <CardValue fontSize="14px" value={katsuSupply} />}
         </Row>
         <Row>
-          <Text fontSize="14px">{TranslateString(538, 'Total CAKE Burned')}</Text>
+          <Text fontSize="14px">{TranslateString(538, 'Total KATSU Burned')}</Text>
           <CardValue fontSize="14px" decimals={0} value={burnedBalance} />
         </Row>
         <Row>
-          <Text fontSize="14px">{TranslateString(540, 'New CAKE/block')}</Text>
+          <Text fontSize="14px">{TranslateString(540, 'New KATSU/block')}</Text>
           <CardValue fontSize="14px" decimals={0} value={22} />
         </Row>
       </CardBody>
@@ -49,4 +49,4 @@ const CakeStats = () => {
   )
 }
 
-export default CakeStats
+export default KatsuStats
